@@ -5,8 +5,6 @@ chordList = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A
 def transposeUp(row : str):
     chords = row.split()
     for chord in chords:
-        if chord == "m":
-            print(lastTranspose)
         newChord = chordList[chordList.index(chord) + 1]
         row = row.replace(chord, newChord)
     return row
