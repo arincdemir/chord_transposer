@@ -10,4 +10,4 @@ For now the program crashes if a chord appears several times in a line(a row). Y
 
 Also, It doesn't work with chords like Cmaj7 since I currently distinguish chords lyrics by looking at its length. The code thinks that Cmaj7 is a meaningful word, not a chord since it is longer than 3 characters.
 
-Yeah I know, I'll fix these whenever possible.
+Yeah I know, I'll fix these whenever possible. Though probably only I will be using this :(
