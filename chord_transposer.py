@@ -7,9 +7,7 @@ def transposeUp(row : str):
     for chord in chords:
         newChord = chordList[chordList.index(chord) + 1]
         row = replaceChord(row, chord, newChord)
-        if "G##" in row:
-            print("hey")
-            
+
     return row
 
 def replaceChord(string: str, old: str, new: str):
