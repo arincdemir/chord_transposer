@@ -6,8 +6,31 @@ def transposeUp(row : str):
     chords = row.split()
     for chord in chords:
         newChord = chordList[chordList.index(chord) + 1]
-        row = row.replace(chord, newChord)
+        row = replaceChord(row, chord, newChord)
+        if "G##" in row:
+            print("hey")
+            
     return row
+
+def replaceChord(string: str, old: str, new: str):
+    string = string + " "
+    index = 0
+    found = False
+    #finding the index of the old chord
+    for i in range(len(string)):
+        for j in range(len(old) + 1):
+            if j == len(old):
+                if string[i + j] == " ":
+                    index = i
+                    found = True
+            elif string[i + j] != old[j]:
+                break
+        if found:
+            break
+            
+    newString = string[:index] + new + string[index + len(old):]
+    return newString
+    
 
 
 # Get the chords from the user
