@@ -37,6 +37,53 @@ def replaceChord(string: str, old: str, new: str):
     return newString
 
 
+chordAdditives = ["dim", "sus", "maj", "aug"]
+
+
+def areChords(words):
+    for word in words:
+        # check whether word is one of the chords in the transpose list. If it is; go check the other words
+        if word in chordList:
+            continue
+
+        # check whether the word starts with a chord name like "D". If not, then it's not a chord
+        startsWithChordName = False
+        for name in chordList:
+            if word.startswith(name):
+                startsWithChordName = True
+                break
+        if not startsWithChordName:
+            return False
+
+        # check whether the word is longer than 6 characters. It's super unlikely to be a chord if it is.
+        if len(word) > 6:
+            return False
+
+        # if the chord is longer than 4 chars, it should have additives like "sus" in it.
+        if len(word) > 4:
+            additive_in = False
+            for additive in chordAdditives:
+                if additive in word:
+                    additive_in = True
+                    break
+            if additive_in:
+                continue
+            else:
+                return False
+
+        # if the chord is shorter than or equal to 4 chars, it should have "7" or "9" in it.
+        if 1 < len(word) <= 4:
+            if "7" in word or "9" in word:
+                continue
+            else:
+                return False
+
+        # if the checks above don't apply, I'll assume that it is not a chord :)
+        return False
+
+    return True
+
+
 # Get the chords from the user
 fhand = open("paste_chords_here.txt", "r")
 text = fhand.read()
@@ -50,12 +97,7 @@ for i in range(12):
     currentTranspose = ""
     for row in lastTranspose:
         words = row.split()
-        areChords = True
-        for word in words:
-            if len(word) > 3:
-                areChords = False
-                break
-        if areChords:
+        if areChords(words):
             currentTranspose += transposeRowUp(row)
         else:
             currentTranspose += row
