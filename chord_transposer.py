@@ -6,11 +6,35 @@ chordList = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A
              "Am", "Bbm", "Bm", "Cm", "Dbm", "Dm", "Ebm", "Em", "Fm", "Gbm", "Gm", "Abm", "Am",
              ]
 
+sharpNFlats = ["A#", "C#", "D#", "F#", "G#",
+               "Bb", "Db", "Eb", "Gb", "Ab"
+               ]
+
+normalsChords = ["A", "B", "C", "E", "F", "G"]
+
+chordAdditives = ["dim", "sus", "maj", "aug"]
+
 
 def transposeRowUp(row: str):
     chords = row.split()
     for chord in chords:
-        newChord = chordList[chordList.index(chord) + 1]
+        # seperate chord into the base key and additives
+        additives = ""
+        baseChord = ""
+
+        if chord in chordList:
+            baseChord = chord
+        else:
+            if chord[:2] in sharpNFlats:
+                baseChord = chord[:2]
+                additives = chord[2:]
+            elif chord[0] in normalsChords:
+                baseChord = chord[0]
+                additives = chord[1:]
+            else:
+                print("wtf dude this shouldnt happen")
+
+        newChord = chordList[chordList.index(baseChord) + 1] + additives
         oldRow = row
         row = replaceChord(row, chord, newChord)
 
@@ -35,9 +59,6 @@ def replaceChord(string: str, old: str, new: str):
 
     newString = string[:index] + new + string[index + len(old):]
     return newString
-
-
-chordAdditives = ["dim", "sus", "maj", "aug"]
 
 
 def areChords(words):
@@ -73,7 +94,7 @@ def areChords(words):
 
         # if the chord is shorter than or equal to 4 chars, it should have "7" or "9" in it.
         if 1 < len(word) <= 4:
-            if "7" in word or "9" in word:
+            if "7" in word or "9" in word or "6" in word or "5" in word:
                 continue
             else:
                 return False
